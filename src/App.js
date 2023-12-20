@@ -2,13 +2,13 @@ import Register from "./components/Register";
 import ipConfig from "./ipConfig.json";
 
 export const config = {
-  // endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
+  endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
 };
-
+// console.log(config.endpoint)
 function App() {
   return (
     <div className="App">
-          <Register />
+      <Register />
     </div>
   );
 }
