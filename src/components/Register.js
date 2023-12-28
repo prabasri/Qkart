@@ -3,11 +3,12 @@ import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
+import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
   const  {enqueueSnackbar} = useSnackbar();
@@ -19,7 +20,7 @@ const Register = () => {
   });
   // console.log(formData);
   const [isLoading, setLoading] = useState(false);
-  // const [isSubmitted, setSubmitted] = useState("Unsubmitted");
+  let history = useHistory();
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -52,7 +53,6 @@ const Register = () => {
    */
   const register = async (e) => {
     e.preventDefault();
-    // console.log(formData)
     // console.log(formData);
     // console.log(validateInput(formData))
 
@@ -76,19 +76,20 @@ const Register = () => {
 
         if(POSTrequest.data.success) {
           enqueueSnackbar("Registered successfully", {variant: "success"})
+          history.push("/login")
         }
         setLoading(false);
       } 
       catch(error) {
         console.log(error);
         setLoading(false);
+
         if(error.message === "Request failed with status code 400") {
-          enqueueSnackbar("Username is already taken", {variant: "Error"});
+          enqueueSnackbar("Username is already taken", {variant: "error"});
         } else {
-          enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.", {variant: "Error"})
+          enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.", {variant: "error"})
         }
         setLoading(false); 
-
       }
     }
     setLoading(false); 
@@ -144,7 +145,7 @@ const Register = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons />
+      <Header hasHiddenAuthButtons = {true}/>
       <Box className="content">
         <Stack spacing={2} className="form">
           <h2 className="title">Register</h2>
@@ -181,14 +182,14 @@ const Register = () => {
             onChange={(e) => handleChange(e)}
             fullWidth
           />
-          <Box>
+          <Box>{isLoading ? <CircularProgress/> :
            <Button className="button" variant="contained" onClick={(e) => register(e)}>
             Register Now
-           </Button>
+           </Button>}
           </Box>
           <p className="secondary-action">
             Already have an account?
-             <a className="link" href="#">
+             <a className="link" href="/login">
               Login here
              </a>
           </p>

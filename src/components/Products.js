@@ -15,21 +15,13 @@ import Header from "./Header";
 import "./Products.css";
 
 
-
 const Products = () => {
-
-
-
-
 
 
 
   return (
     <div>
-      <Header>
-
-      </Header>
-
+      <Header hasHiddenAuthButtons={false}></Header>
        <Grid container>
          <Grid item className="product-grid">
            <Box className="hero">
