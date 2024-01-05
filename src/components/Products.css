@@ -19,6 +19,24 @@
   width: 100%;
 }
 
+.products {
+  margin-left: 16px;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+}
+
+/* .no_product {
+  margin-left: 25rem; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50vh;
+} */
+
 .hero-heading {
   color: #fff;
   font-size: 1.5rem;

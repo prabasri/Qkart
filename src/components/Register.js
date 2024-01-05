@@ -11,7 +11,7 @@ import "./Register.css";
 import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
-  const  {enqueueSnackbar} = useSnackbar();
+  const {enqueueSnackbar} = useSnackbar();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -53,8 +53,6 @@ const Register = () => {
    */
   const register = async (e) => {
     e.preventDefault();
-    // console.log(formData);
-    // console.log(validateInput(formData))
 
     if(validateInput(formData)) {
 
@@ -134,7 +132,7 @@ const Register = () => {
     if(data.password !== data.confirmPassword) {
       enqueueSnackbar("Passwords do not match", {variant: "Warning"});
       return false;
-    } 
+    }
     return true;
   };
 
