@@ -103,7 +103,6 @@ const Products = () => {
       console.log(isFetched);
     }
   };
-  // performAPICall();
   
   // const product = {
   //     "name":"Tan Leatherette Weekender Duffle",
@@ -128,22 +127,7 @@ const Products = () => {
    * API endpoint - "GET /products/search?value=<search-query>"
    *
    */
-  const data = [{
-    "name":"Tan Leatherette Weekender Duffle",
-    "category":"Fashion",
-    "cost":150,
-    "rating":4,
-    "image":"https://crio-directus-assets.s3.ap-south-1.amazonaws.com/ff071a1c-1099-48f9-9b03-f858ccc53832.png",
-    "_id":"PmInA797xJhMIPti"
-    }, {
-    "name":"Tan Leatherette Weekender Duffle",
-    "category":"Fashion",
-    "cost":150,
-    "rating":4,
-    "image":"https://crio-directus-assets.s3.ap-south-1.amazonaws.com/ff071a1c-1099-48f9-9b03-f858ccc53832.png",
-    "_id":"PmInA797xJhMIPti"
-    }
-];
+  
   const performSearch = async (text) => {
 
     try {
@@ -153,14 +137,10 @@ const Products = () => {
       console.log(product);
 
     } catch(error) {
-
       console.log(error.response);
-      
       if(error.response.status === 404) {
-
         setProduct([""]);
         enqueueSnackbar(error.response.statusText, {variant: "error"});
-
       } else {
         // setIsFetched(true);
         console.log(product);
@@ -248,8 +228,9 @@ const Products = () => {
         onChange={(e) => debounceSearch(e, 500)}
       />
 
-      <Grid container spacing={2}>
-         <Grid item className="product-grid">
+      <Grid container>
+        <Grid item container spacing={2} xs={12} md={9}>
+         <Grid item className="product-grid" >
            <Box className="hero">
              <p className="hero-heading">
                India’s <span className="hero-highlight">FASTEST DELIVERY</span>{" "}
@@ -258,19 +239,27 @@ const Products = () => {
            </Box>
          </Grid>
          {isFetched ?
-          <Grid item className="products">
-            <Grid container spacing={2}>
-              {product.map((item) => {
-                // console.log(item);
-                return item ? <Grid item key={item._id}><ProductCard product={item} xs={6} md={3}/></Grid> : 
-                <div className="loading"><SentimentDissatisfied />No products found</div>
-              }
-              )}
-            </Grid>
+          <Grid item container spacing={2} className="products">
+            {product.map((item) => {
+              // console.log(item);
+              return item ? <Grid item key={item._id} xs={6} md={3}><ProductCard product={item} /></Grid> : 
+              <div className="loading"><SentimentDissatisfied />No products found</div>
+            }
+            )}
           </Grid>
          : <div className="loading"><CircularProgress />Loading Products...</div>
          }
         </Grid>
+        <Grid item container 
+          direction="column" 
+          justifyContent="flex-start" 
+          alignItems="center" 
+          xs={12} md={3} 
+          className="cart">
+            <Grid className="inside-cart">Cart is empty. Add more items to the cart to checkout.</Grid>
+        </Grid>
+      </Grid>
+      
       <Footer />
     </div>
   );

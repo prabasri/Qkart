@@ -37,6 +37,23 @@
   height: 50vh;
 } */
 
+.cart {
+  background-color: #E9F5E1;
+  width: 100%;
+}
+
+.inside-cart {
+  background-color: white;
+  width: 95%;
+  margin-top: 8px;
+  height: 70vh;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .hero-heading {
   color: #fff;
   font-size: 1.5rem;

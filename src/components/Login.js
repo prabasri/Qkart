@@ -82,7 +82,7 @@ const Login = () => {
           // setIsLogged((prevState) => ({ ...prevState, isLogged: !isLogged }));
           // setIsLogged(true);
           enqueueSnackbar("Logged in successfully", {variant:"success"});
-          history.push("/");
+          history.push("/products");
         
         }
         setLoading(false);
