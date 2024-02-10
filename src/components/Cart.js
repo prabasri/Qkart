@@ -7,8 +7,9 @@ import {
 import { Button, IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import "./Cart.css";
+import Checkout from "./Checkout"
 
 // Definition of Data Structures used
 /**
@@ -48,6 +49,16 @@ import "./Cart.css";
  *
  */
 export const generateCartItemsFrom = (cartData, productsData) => {
+  console.log(cartData);
+  console.log(productsData);
+  
+  if (!cartData) return;
+
+  const cartItem = cartData.map((item) => ({
+    ...item,
+    ...productsData.find((product) => item.productId === product._id)
+  }));
+  return cartItem;
 };
 
 /**
@@ -61,8 +72,12 @@ export const generateCartItemsFrom = (cartData, productsData) => {
  *
  */
 export const getTotalCartValue = (items = []) => {
+  if(!items.length) {
+    return 0;
+  }
+  const costArray = items.map((item) => item.cost * item.qty);
+  return costArray.reduce((accumulator, currentValue) => accumulator + currentValue);
 };
-
 
 /**
  * Component to display the current quantity for a product and + and - buttons to update product quantity on cart
@@ -76,13 +91,31 @@ export const getTotalCartValue = (items = []) => {
  * @param {Function} handleDelete
  *    Handler function which reduces the quantity of a product in cart by 1
  * 
- * 
  */
+
 const ItemQuantity = ({
   value,
   handleAdd,
   handleDelete,
+  isReadOnly= false,
 }) => {
+
+  if(isReadOnly) {
+    return <Box>Qty: {value}</Box>;
+  }
+  return (
+    <Stack direction="row" alignItems="center">
+      <IconButton size="small" color="primary" onClick={handleDelete}>
+        <RemoveOutlined />
+      </IconButton>
+      <Box padding="0.5rem" data-testid="item-qty">
+        {value}
+      </Box>
+      <IconButton size="small" color="primary" onClick={handleAdd}>
+        <AddOutlined />
+      </IconButton>
+    </Stack>
+  );
 };
 
 /**
@@ -99,11 +132,18 @@ const ItemQuantity = ({
  * 
  * 
  */
+
 const Cart = ({
   products,
   items = [],
   handleQuantity,
+  isReadOnly = false
 }) => {
+  console.log(products);
+  console.log(items);
+
+  const history= useHistory();
+  const token = localStorage.getItem("token");
 
   if (!items.length) {
     return (
@@ -119,6 +159,69 @@ const Cart = ({
   return (
     <>
       <Box className="cart">
+        {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
+        {items.map((item) => 
+          // console.log(item);
+          <Box key={item.productId}>
+            {item.qty > 0 ? (
+              <Box display="flex" alignItems="flex-start" padding="1rem">
+                  <Box className="image-container">
+                      <img
+                          // Add product image
+                          src={item.image}
+                          // Add product name as alt text
+                          alt={item.name}
+                          width="100%"
+                          height="100%"
+                      />
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                    height="6rem"
+                    paddingX="1rem"
+                  >
+                    <div>{item.name}</div>
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                    >
+                      <ItemQuantity
+                      // Add required props by checking implementation
+                      isReadOnly= {isReadOnly}
+                      value={item.qty}
+                      handleAdd = {async() => {
+                        await handleQuantity(
+                          token,
+                          items,
+                          products,
+                          item.productId,
+                          item.qty + 1
+                        );
+                      }}
+                      handleDelete = {async() => {
+                        await handleQuantity(
+                          token,
+                          items,
+                          products,
+                          item.productId,
+                          item.qty - 1
+                        );
+                      }}
+                      />
+                      <Box padding="0.5rem" fontWeight="700">
+                          ${item.cost}
+                      </Box>
+                  </Box>
+                </Box>
+              </Box>
+            ): null
+          }
+          </Box>
+        )}
+
         <Box
           padding="1rem"
           display="flex"
@@ -139,9 +242,22 @@ const Cart = ({
           </Box>
         </Box>
 
+        <Box display="flex" justifyContent="flex-end" className="cart-footer">
+          <Link to="/checkout">
+            <Button
+              color="primary"
+              variant="contained"
+              startIcon={<ShoppingCart />}
+              className="checkout-btn"
+              onClick={()=> <Checkout products={products} items={items}/>}
+            >
+              Checkout
+            </Button>
+          </Link>
+        </Box>
       </Box>
     </>
   );
 };
 
-export default Cart;
+export { Cart, ItemQuantity };

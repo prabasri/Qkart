@@ -6,15 +6,11 @@ import "./Header.css";
 import { useHistory, Link } from "react-router-dom";
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
-  // console.log(children, hasHiddenAuthButtons);
-  let history = useHistory();
-  const [username, setUsername] = useState("")
 
-  // const  = JSON.parse();
-  // console.log(successData);
+  let history = useHistory();
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    // let user = JSON.parse(localStorage.getItem("username"))
     setUsername(localStorage.getItem("username"));
     console.log(username);
   }, []);
@@ -49,7 +45,6 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
           onClick={() => history.push("/")}
           >Back to explore
         </Button>}
-
       </Box>
     );
 };

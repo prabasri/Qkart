@@ -22,15 +22,18 @@
     justify-content: space-between;
 }
 
-.explore-button {
+/* .explore-button { */
     /* color: #00a278 !important; */
-    font-weight: 700;
+    /* font-weight: 700;
     text-decoration: none;
     color: #45c09f;
-}
+} */
 
 .link {
     text-decoration: none;
+}
+.explore-button {
+    color: #00a278 !important;
 }
 
 @media screen and (min-width: 768px) {

@@ -55,10 +55,8 @@ const Login = () => {
    *
    */
   const login = async (e) => {
-    e.preventDefault();
-    // console.log(validateInput(loginData));
-    // console.log(isLogged);
 
+    e.preventDefault();
     if(validateInput(loginData)) {
       setLoading(true);
       try {
@@ -68,11 +66,8 @@ const Login = () => {
         }
 
         let POSTloginData = await axios.post(`${config.endpoint}/auth/login`, data);
-        // console.log(`${config.endpoint}/auth/login`);
         console.log(POSTloginData);
-
         persistLogin(POSTloginData.data.token, POSTloginData.data.username, POSTloginData.data.balance)
-        
         setLoginData({
           username:"",
           password:""
@@ -82,7 +77,7 @@ const Login = () => {
           // setIsLogged((prevState) => ({ ...prevState, isLogged: !isLogged }));
           // setIsLogged(true);
           enqueueSnackbar("Logged in successfully", {variant:"success"});
-          history.push("/products");
+          history.push("/");
         
         }
         setLoading(false);
