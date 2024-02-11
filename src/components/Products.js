@@ -1,4 +1,4 @@
-import { Search, SentimentDissatisfied, ShoppingCartOutlined } from "@mui/icons-material";
+import { Search, SentimentDissatisfied } from "@mui/icons-material";
 import {
   CircularProgress,
   Grid,
@@ -14,7 +14,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import "./Products.css";
 import ProductCard from "./ProductCard";
-import { generateCartItemsFrom, Cart, ItemQuantity } from "./Cart"
+import Cart, { generateCartItemsFrom, getTotalItems } from "./Cart"
 
 // Definition of Data Structures used
 /**
@@ -30,7 +30,6 @@ import { generateCartItemsFrom, Cart, ItemQuantity } from "./Cart"
  * @property {number} cost - The price to buy the product
  * @property {number} rating - The aggregate rating of the product (integer out of five)
  * @property {string} image - Contains URL for the product image
- * @property {string} _id - Unique ID for the product
  * @property {string} productId - Unique ID for the product
  */
 
@@ -239,6 +238,7 @@ const Products = () => {
   };
 
   let token = localStorage.getItem("token");
+  console.log(token);
 
   useEffect(() => {
     fetchCart(token)
@@ -341,43 +341,6 @@ const Products = () => {
     }
   };
   
-  const displayCart = async () => {
-    
-    <Box display="flex" alignItems="flex-start" padding="1rem">
-        <Box className="image-container">
-            <img
-                // Add product image
-                src=""
-                // Add product name as alt eext
-                alt=""
-                width="100%"
-                height="100%"
-            />
-        </Box>
-        <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            height="6rem"
-            paddingX="1rem"
-        >
-            <div>{/* Add product name */}</div>
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-            >
-            <ItemQuantity
-            // Add required props by checking implementation
-            />
-            <Box padding="0.5rem" fontWeight="700">
-                ${/* Add product cost */}
-            </Box>
-            </Box>
-        </Box>
-    </Box>
-  }
-
   return (
     <div>
       <Header children={<TextField

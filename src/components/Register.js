@@ -1,4 +1,3 @@
-import { Warning } from "@mui/icons-material";
 import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
@@ -143,7 +142,7 @@ const Register = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons = {true}/>
+      <Header hasHiddenAuthButtons />
       <Box className="content">
         <Stack spacing={2} className="form">
           <h2 className="title">Register</h2>
